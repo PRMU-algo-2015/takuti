@@ -34,10 +34,19 @@ def user_function( lv, imlist_learn, imlist_test, imlist_result ):
       # obtaining the pointer of annotation information that is used for learning
       ite_learn = imlist_learn[0]
 
-      for n in range(len(ite_test.logo_list)):
-        label = ite_test.logo_list[n].label
-        bbox = ite_test.logo_list[n].bbox
-        ite_result.append_result(label, bbox)
+      # read test image and its size
+      I0 = cv.imread(ite_test.full_file_path())
+      sx = I0.shape[1]
+      sy = I0.shape[0]
+
+      # bounding box is set to whole area of the test image
+      bbox = prmu.Rect(0, 0, sx, sy);
+
+      # label is chosen randomly
+      label = np.random.choice(labels)
+
+      # set bounding box and label as an answer
+      ite_result.append_result(label, bbox);
 
   return imlist_result;
 
